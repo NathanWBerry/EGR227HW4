@@ -15,12 +15,31 @@ public class LetterInventory {
         }
     }
 
-    private void inventoryHelper(int i) {
+    private int inventoryHelper(char[] data, char c) {
+        int count = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == c) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public LetterInventory(String data) {
+        StringBuilder observedCharacters = new StringBuilder();
+        char[] dataArray = data.toCharArray();
+        Arrays.sort(dataArray);
 
+        Integer[] inventory = new Integer[dataArray.length];
+        for (int i = 0; i < dataArray.length - 2; i++) {
+            if (dataArray[i] == ' ' || dataArray[i] == '?' || dataArray[i] == '-' || dataArray[i] == '!') {
+                dataArray[i] = dataArray[i + 1];
+            }
+            inventory[i] = inventoryHelper(dataArray, dataArray[i]);
+
+        }
     }
+
 
     public int get(char letter) {
         return letter;
@@ -31,6 +50,7 @@ public class LetterInventory {
     }
 
     public int size() {
+
         return 0;
     }
 
