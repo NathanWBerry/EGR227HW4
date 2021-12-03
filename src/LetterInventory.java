@@ -9,7 +9,13 @@ public class LetterInventory {
     public final int COUNTER = 26;
 
     public LetterInventory() {
+        Integer[] inventory = new Integer[COUNTER];
+        for (int i = 0; i < COUNTER; i++) {
+            inventory[i] = 0;
+        }
+    }
 
+    private void inventoryHelper(int i) {
     }
 
     public LetterInventory(String data) {
