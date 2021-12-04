@@ -7,12 +7,15 @@ import java.lang.reflect.*;
 public class LetterInventory {
     //Implement this class
     public final int COUNTER = 26;
+    public int total;
+    private int[] inventory;
 
     public LetterInventory() {
-        Integer[] inventory = new Integer[COUNTER];
+        inventory = new int[COUNTER];
         for (int i = 0; i < COUNTER; i++) {
             inventory[i] = 0;
         }
+        total = 0;
     }
 
     private int inventoryHelper(char[] data, char c) {
@@ -26,23 +29,30 @@ public class LetterInventory {
     }
 
     public LetterInventory(String data) {
-        StringBuilder observedCharacters = new StringBuilder();
-        char[] dataArray = data.toCharArray();
-        Arrays.sort(dataArray);
-
-        Integer[] inventory = new Integer[dataArray.length];
-        for (int i = 0; i < dataArray.length - 2; i++) {
-            if (dataArray[i] == ' ' || dataArray[i] == '?' || dataArray[i] == '-' || dataArray[i] == '!') {
-                dataArray[i] = dataArray[i + 1];
+        /* Setup array */
+        this();
+        /* Iterate over the input String to allocate the appropriate counters */
+        for(int i = 0; i < data.length(); i++) {
+            char c = data.charAt(i);
+            /* Consider only letter characters */
+            if (Character.isLetter(c)) {
+                c = Character.toLowerCase(c);
+                /* convenient way to get indices from character values */
+                inventory[getIndex(c)]++;
+                total++;
             }
-            inventory[i] = inventoryHelper(dataArray, dataArray[i]);
-
         }
     }
 
 
     public int get(char letter) {
-        return letter;
+        if (!Character.isLetter(letter)) throw new IllegalArgumentException("Must be letters.");
+        return inventory[getIndex(letter)];
+    }
+
+    private static int getIndex(char letter) {
+        letter = Character.toLowerCase(letter);
+        return (int)letter - (int)'a';
     }
 
     public void set(char letter, int value) {
@@ -50,12 +60,12 @@ public class LetterInventory {
     }
 
     public int size() {
-
-        return 0;
+        return total;
     }
 
     public boolean isEmpty() {
-        return false;
+        if (total == 0) return true;
+        else return false;
     }
 
     public String toString() {
