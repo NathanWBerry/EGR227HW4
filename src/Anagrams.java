@@ -16,12 +16,13 @@ public class Anagrams {
             inventoryMap.put(s, new LetterInventory(s)); //Creates the letter inventory
         }
     }
-
+    //This method prints out the Anagrams according to the given text and maximum words
     public void print(String text, int max) {
         explore(new LetterInventory(text), new LinkedList<String>(),
                 pruneDictionary(text), max);
     }
 
+    //This method prunes the dictionary by subtracting the elements in the map from the inventory
     private List<String> pruneDictionary(String text) {
         List<String> prunedDictionary = new LinkedList<>();
         LetterInventory textInventory = new LetterInventory(text);
@@ -32,18 +33,18 @@ public class Anagrams {
         }
         return prunedDictionary;
     }
-
+    //This method explores the remaining inventories using recursion
     private void explore(LetterInventory inventoriesLeft, List<String> chosen,
                          List<String> prunedDictionary, int max) {
         if (inventoriesLeft.isEmpty()) {
-            System.out.println(chosen);
-        } else if (max == 0 || chosen.size() < max) {
-            for (String s : prunedDictionary) {
+            System.out.println(chosen); //Prints out the chosen List when there are no more remaining inventories
+        } else if (max == 0 || chosen.size() < max) { //Won't run if the size is larger than the max
+            for (String s : prunedDictionary) { //Runs through the whole pruned dictionary
                 LetterInventory newInventoriesLeft = inventoriesLeft.subtract(inventoryMap.get(s));
-                if (newInventoriesLeft != null) {
+                if (newInventoriesLeft != null) { //If there are still inventories left
                     chosen.add(s);
-                    explore(newInventoriesLeft, chosen, prunedDictionary, max);
-                    chosen.remove(chosen.size()-1);
+                    explore(newInventoriesLeft, chosen, prunedDictionary, max); //Recursive call
+                    chosen.remove(chosen.size()-1); //Removes the chosen that was just explored
                 }
             }
         }
